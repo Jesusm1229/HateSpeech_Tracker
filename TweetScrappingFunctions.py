@@ -1,10 +1,15 @@
 import snscrape.modules.twitter as sntwitter
 import pandas as pd
+from datetime import date
 
 # Variables
-maxTweets = 20    # Max amount of tweets to be saved
+maxTweets = 50    # Max amount of tweets to be saved
 
 tweets_list = []    # Saves the tweets in a list
+
+today = date.today()    # This gets the current date every time the program is executed 
+
+currentDate = ""    # This stores the current date as a string
 
 def tweets_fetching():
     '''Function for fetching tweets using specifics words'''
@@ -15,11 +20,13 @@ def tweets_fetching():
 
     count = 0
 
+    currentDate = today.strftime("%Y-%m-%d")
+
     while count < listLength:
 
         word = wordList[count]
 
-        stringForFunction = word + ' since:2021-05-01 until:2021-06-01'
+        stringForFunction = word + ' since:2021-03-01 until:' + currentDate
 
         i = 0
 
@@ -27,9 +34,9 @@ def tweets_fetching():
             
             content = tweet[1].content
 
-            content = content.lower()
+            content = content.lower()    # This lower-case the content of the Tweet
 
-            if word in content:
+            if word in content:    # Condition to check if the word is contained in the content of the Tweet
                 tweets_list.append([tweet[1].content, tweet[1].user.location, tweet[1].user.username])
 
                 i += 1
